@@ -1,0 +1,19 @@
+﻿@model UpdateCategoryPageVm
+
+<form method="post">
+
+
+     <input type="hidden" asp-for="Category.Id" />
+
+    <div>
+        <input type="text" asp-for="Category.CategoryName"  />
+    </div>
+
+    <div>
+        <input type="text" asp-for="Category.Description" />
+    </div>
+
+    <div>
+        <button class="btn btn-warning">Güncelle</button>
+    </div>
+</form>
