@@ -1,15 +1,26 @@
-﻿@model Product
+﻿@model UpdateProductPageVm
 
 
     <form method="post">
+
+        <input type="hidden" asp-for="Product.Id" />
+
         <div>
-            <input asp-for="ProductName" />
+            <input asp-for="Product.ProductName" />
 
 
         </div>
 
         <div>
-            <input asp-for="UnitPrice" />
+            <input asp-for="Product.UnitPrice" />
+        </div>
+
+        <div>
+
+            <select asp-for="Product.CategoryId" asp-items='new SelectList(Model.Categories,"Id","CategoryName")'>
+                <option>Lütfen seciniz</option>
+            </select>
+
         </div>
 
         <div>

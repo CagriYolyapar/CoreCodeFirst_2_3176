@@ -28,8 +28,14 @@ namespace CoreCodeFirst_2.Controllers
             return View(cpVm);
         }
 
+
+
+        //Eger siz FrontEnd View'indan Action'ina post edilirken gönderilen Modeli bir pagevm olarak alıyorsanız yalnız icerisindeki yapıya ulasmak istiyorsanız o yapının property'sine action'inizin parametre ismine birebir aynı vermelisiniz (incasesensitive)
+
+        //Veya Bind prefix sistemini kullanmalısınız..Bu sistem prefix keyword'undeki deger, PageVM gibi bir kapsülleme görevini üstlenmiş yapının icerisindeki Property'e denk düsüyorsa onu parametrenize bind eder
+
         [HttpPost]
-        public IActionResult CreateProduct(Product item)
+        public IActionResult CreateProduct([Bind(Prefix ="Product")]Product item)
         {
             _context.Products.Add(item);
             _context.SaveChanges();
@@ -38,15 +44,21 @@ namespace CoreCodeFirst_2.Controllers
 
         public IActionResult UpdateProduct(int id)
         {
-            return View(_context.Products.Find(id));
+            UpdateProductPageVm upPvm = new()
+            {
+                Product = _context.Products.Find(id),
+                Categories = _context.Categories.ToList()
+            };
+            return View(upPvm);
         }
 
         [HttpPost]
-        public IActionResult UpdateProduct(Product item)
+        public IActionResult UpdateProduct(Product product)
         {
-            Product p = _context.Products.Find(item.Id);
-            p.ProductName = item.ProductName;
-            p.UnitPrice = item.UnitPrice;   
+            Product p = _context.Products.Find(product.Id);
+            p.ProductName = product.ProductName;
+            p.UnitPrice = product.UnitPrice;
+            p.CategoryId = product.CategoryId;
             _context.SaveChanges();
             return RedirectToAction("ProductList");
         }
